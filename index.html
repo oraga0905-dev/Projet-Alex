@@ -51,75 +51,89 @@
 
               <div class="col-md-6">
                 <form
-  action="https://api.web3forms.com/submit"
-  method="POST"
-  id="contactForm"
->
-  <input type="hidden" name="access_key" value="e700279a-518e-4821-8af1-54a175096bc8" />
+                  action="https://api.web3forms.com/submit"
+                  method="POST"
+                  id="contactForm"
+                >
+                  <input
+                    type="hidden"
+                    name="access_key"
+                    value="e700279a-518e-4821-8af1-54a175096bc8"
+                  />
 
-  <!-- Champ Nom -->
-  <div class="form-group">
-    <input
-      type="text"
-      name="name"
-      id="name"
-      class="form-control"
-      placeholder="Nom et prénom"
-      required
-    />
-  </div>
+                  <div class="row">
+                    <div class="col-md-12 form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="name"
+                        id="name"
+                        placeholder="Nom et prénom"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="email"
+                        id="email"
+                        placeholder="Email"
+                      />
+                    </div>
+                  </div>
 
-  <!-- Champ Email -->
-  <div class="form-group">
-    <input
-      type="email"
-      name="email"
-      id="email"
-      class="form-control"
-      placeholder="Email"
-      required
-    />
-  </div>
+                  <div class="row">
+                    <div class="col-md-12 form-group">
+                      <input
+                        type="tel"
+                        class="form-control" w-100
+                        name="dial_code"
+                        id="Indicatif"
+                        required
+                      />
+                    </div>
+                    
+                  </div>
 
-  <!-- Champ Téléphone (avec intl-tel-input) -->
-  <div class="form-group">
-    <input
-      type="tel"
-      name="phone"
-      id="Indicatif"
-      class="form-control"
-      placeholder="Téléphone"
-      required
-    />
-  </div>
+                  <div class="row">
+                    <div class="col-md-12 form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="subject"
+                        id="subject"
+                        placeholder="Sujet"
+                      />
+                    </div>
+                  </div>
 
-  <!-- Champ Sujet -->
-  <div class="form-group">
-    <input
-      type="text"
-      name="subject"
-      id="subject"
-      class="form-control"
-      placeholder="Sujet"
-    />
-  </div>
+                  <div class="row">
+                    <div class="col-md-12 form-group">
+                      <textarea
+                        class="form-control"
+                        name="message"
+                        id="message"
+                        cols="30"
+                        rows="7"
+                        placeholder="Écrivez votre message"
+                      ></textarea>
+                    </div>
+                  </div>
 
-  <!-- Champ Message -->
-  <div class="form-group">
-    <textarea
-      name="message"
-      id="message"
-      class="form-control"
-      placeholder="Écrivez votre message"
-      rows="5"
-      required
-    ></textarea>
-  </div>
-
-  <!-- Boutons -->
-  <button type="submit" class="btn btn-primary">Envoyer</button>
-  
-</form>
+                  <div class="row">
+                    <div class="col-12">
+                      <input
+                        type="submit"
+                        id="submitBtn"
+                        value="Envoyer le message"
+                        class="btn btn-primary rounded-0 py-2 px-4"
+                      />
+                      
+                    </div>
+                  </div>
+                </form>
 
                 
             </div>
@@ -130,92 +144,107 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"></script>
-
-
-<!-- Intl-Tel-Input -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"></script>
-
-<!-- jQuery + Validate -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.19.5/jquery.validate.min.js"></script>
-
-<!-- Intl-Tel-Input -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"></script>
-
-<!-- jQuery + Validate -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.19.5/jquery.validate.min.js"></script>
-
 <script>
-  $(document).ready(function () {
-    const indicativeInput = document.querySelector("#Indicatif");
+  const translations = {
+    fr: {
+      formTitle: "Nom de l'entreprise",
+      formDescription: "Description de l'entreprise",
+      name: "Nom et prénom",
+      email: "Email",
+      phone: "Numéro de téléphone",
+      subject: "Sujet",
+      message: "Écrivez votre message",
+      submitBtn: "Envoyer le message",
+    },
+    en: {
+      formTitle: "Company Name",
+      formDescription: "Company description",
+      name: "Full name",
+      email: "Email",
+      phone: "Phone number",
+      subject: "Subject",
+      message: "Write your message",
+      submitBtn: "Send message",
+    }
+  };
 
-    // Initialise intl-tel-input
-    window.iti = window.intlTelInput(indicativeInput, {
-      initialCountry: "ci",
-      preferredCountries: ["ci", "fr", "us", "gb"],
-      separateDialCode: true,
-      nationalMode: false,
-      utilsScript:
-        "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js",
-    });
+  const indicativeInput = document.querySelector("#Indicatif");
 
-    // Validation
-    $("#contactForm").validate({
-      rules: {
-        name: {
-          required: true,
-          minlength: 5,
-          pattern: /^[A-Za-zÀ-ÿ\s'-]+$/,
-        },
-        email: {
-          required: true,
-          email: true,
-        },
-        phone: {
-          required: true,
-          digits: true,
-          minlength: 6,
-          maxlength: 14,
-        },
-        message: {
-          required: true,
-          minlength: 5,
-        },
-      },
-      messages: {
-        name: {
-          required: "Veuillez entrer votre nom",
-          minlength: "Au moins 5 caractères",
-          pattern: "Uniquement lettres, espaces, apostrophes ou tirets",
-        },
-        email: "Veuillez entrer un email valide",
-        phone: {
-          required: "Veuillez entrer un numéro",
-          digits: "Chiffres uniquement",
-          minlength: "Minimum 6 chiffres",
-          maxlength: "Maximum 14 chiffres",
-        },
-        message: "Message requis (au moins 5 caractères)",
-      },
-      submitHandler: function (form) {
-        // Met à jour le champ phone avec le numéro complet
-        $("input[name='phone']").val(window.iti.getNumber());
+  const iti = window.intlTelInput(indicativeInput, {
+    initialCountry: "ci",
+    preferredCountries: ["ci", "fr", "us", "gb"],
+    separateDialCode: true,
+    nationalMode: false,
+    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js",
+  });
 
-        if (!window.iti.isValidNumber()) {
-          alert("Numéro de téléphone invalide.");
-          return false;
-        }
+  // ✅ Validation stricte AVANT l'envoi
+  document.getElementById("contactForm").addEventListener("submit", function (e) {
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const subject = document.getElementById("subject").value.trim();
+    const message = document.getElementById("message").value.trim();
+    const fullNumber = iti.getNumber(); // Ex: +2250701020304
 
-        form.submit();
-      },
-    });
+    // 🔍 Vérification des champs obligatoires
+    if (!name || !email || !message) {
+      e.preventDefault();
+      alert("Veuillez remplir tous les champs obligatoires.");
+      return;
+    }
+
+    // 📧 Validation email simple
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      e.preventDefault();
+      alert("Adresse email invalide.");
+      return;
+    }
+
+    // ☎️ Validation téléphone
+    if (!iti.isValidNumber()) {
+      e.preventDefault();
+      alert("Numéro de téléphone invalide.");
+      return;
+    }
+
+    const digitsOnly = fullNumber.replace(/\D/g, '');
+    if (digitsOnly.length < 10) {
+      e.preventDefault();
+      alert("Numéro de téléphone trop court.");
+      return;
+    }
+
+    // ✅ Si tout est bon, injecte le numéro formaté dans le champ
+    indicativeInput.value = fullNumber;
+  });
+
+  // 🌐 Langue dynamique
+  function setLanguage(lang) {
+    const t = translations[lang];
+    if (!t) return;
+
+    document.getElementById("formTitle").innerText = t.formTitle;
+    document.getElementById("formDescription").innerText = t.formDescription;
+    document.getElementById("name").placeholder = t.name;
+    document.getElementById("email").placeholder = t.email;
+    document.getElementById("Indicatif").placeholder = t.phone;
+    document.getElementById("subject").placeholder = t.subject;
+    document.getElementById("message").placeholder = t.message;
+    document.getElementById("submitBtn").value = t.submitBtn;
+
+    localStorage.setItem("preferredLanguage", lang);
+  }
+
+  const languageSelect = document.getElementById("languageSelect");
+  const savedLang = localStorage.getItem("preferredLanguage") || "fr";
+  languageSelect.value = savedLang;
+  setLanguage(savedLang);
+
+  languageSelect.addEventListener("change", function () {
+    setLanguage(this.value);
   });
 </script>
-
-
 
 
 
