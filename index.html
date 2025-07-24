@@ -23,6 +23,13 @@
     />
 
     <title>Contact Form</title>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+  <script>
+    (function(){
+      emailjs.init("UDmGVOafcDnVu8XoW"); // Remplace par ta clé publique ici
+    })();
+  </script>
   </head>
   <body>
     <div class="text-right" style="margin: 0; padding: 0; line-height: 1;">
@@ -212,6 +219,16 @@
   languageSelect.addEventListener("change", function () {
     setLanguage(this.value);
   });
+  document.getElementById('contact-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      emailjs.sendForm('service_sh4foaq', 'template_mlx5wzc', this)
+        .then(function() {
+          alert('Message envoyé avec succès !');
+        }, function(error) {
+          alert('Erreur : ' + JSON.stringify(error));
+        });
+    });
 </script>
 
 
