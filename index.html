@@ -175,25 +175,51 @@
     preferredCountries: ["ci", "fr", "us", "gb"],
     separateDialCode: true,
     nationalMode: false,
-    utilsScript:
-      "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js",
+    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js",
   });
 
-  // Validation + génération du numéro complet avant soumission
+  // ✅ Validation stricte AVANT l'envoi
   document.getElementById("contactForm").addEventListener("submit", function (e) {
-    const fullNumber = iti.getNumber(); // ex: +2250701020304
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const subject = document.getElementById("subject").value.trim();
+    const message = document.getElementById("message").value.trim();
+    const fullNumber = iti.getNumber(); // Ex: +2250701020304
 
-    // Vérifie si le numéro est valide
-    if (!iti.isValidNumber()) {
+    // 🔍 Vérification des champs obligatoires
+    if (!name || !email || !message) {
       e.preventDefault();
-      alert("Le numéro de téléphone est invalide.");
-      return false;
+      alert("Veuillez remplir tous les champs obligatoires.");
+      return;
     }
 
-   
+    // 📧 Validation email simple
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      e.preventDefault();
+      alert("Adresse email invalide.");
+      return;
+    }
+
+    // ☎️ Validation téléphone
+    if (!iti.isValidNumber()) {
+      e.preventDefault();
+      alert("Numéro de téléphone invalide.");
+      return;
+    }
+
+    const digitsOnly = fullNumber.replace(/\D/g, '');
+    if (digitsOnly.length < 10) {
+      e.preventDefault();
+      alert("Numéro de téléphone trop court.");
+      return;
+    }
+
+    // ✅ Si tout est bon, injecte le numéro formaté dans le champ
+    indicativeInput.value = fullNumber;
   });
 
-  // Fonction pour changer dynamiquement la langue
+  // 🌐 Langue dynamique
   function setLanguage(lang) {
     const t = translations[lang];
     if (!t) return;
@@ -210,7 +236,6 @@
     localStorage.setItem("preferredLanguage", lang);
   }
 
-  // Récupère la langue sauvegardée ou défaut "fr"
   const languageSelect = document.getElementById("languageSelect");
   const savedLang = localStorage.getItem("preferredLanguage") || "fr";
   languageSelect.value = savedLang;
@@ -220,6 +245,7 @@
     setLanguage(this.value);
   });
 </script>
+
 
 
 
