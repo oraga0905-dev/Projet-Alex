@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:400,700,900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="fonts/icomoon/style.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.min.css"
+    />
+
+    <title>Contact Form</title>
+  </head>
+  <body>
+    <div class="text-right" style="margin: 0; padding: 0; line-height: 1;">
+  <select id="languageSelect" class="form-control w-auto d-inline" style="margin: 0; padding: 2px; height: auto; line-height: 1;">
+    <option value="fr">🇫🇷 Français</option>
+    <option value="en">🇬🇧 English</option>
+  </select>
+</div>
+
+    <div class="content">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-10">
+            <div class="row justify-content-center">
+              <div class="col-md-6">
+                <h3 class="heading mb-4" id="formTitle">Nom de l'entreprise</h3>
+                <p id="formDescription">Description de l'entreprise</p>
+                <p>
+                  <img
+                    src="images/undraw-contact.svg"
+                    alt="Image"
+                    class="img-fluid"
+                  />
+                </p>
+              </div>
+
+              <div class="col-md-6">
+                <form name="contact" method="POST" data-netlify="true" netlify id="contactForm">
+                <input type="hidden" name="form-name" value="contact" />
+              
+
+                  <div class="row">
+                    <div class="col-md-12 form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="name"
+                        id="name"
+                        placeholder="Nom et prénom"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="email"
+                        id="email"
+                        placeholder="Email"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12 form-group">
+                      <input
+                        type="tel"
+                        class="form-control" w-100
+                        name="phone"
+                        id="Indicatif"
+                        required
+                      />
+                    </div>
+                    
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12 form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="subject"
+                        id="subject"
+                        placeholder="Sujet"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12 form-group">
+                      <textarea
+                        class="form-control"
+                        name="message"
+                        id="message"
+                        cols="30"
+                        rows="7"
+                        placeholder="Écrivez votre message"
+                      ></textarea>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-12">
+                      <input
+                        type="submit"
+                        id="submitBtn"
+                        value="Envoyer le message"
+                        class="btn btn-primary rounded-0 py-2 px-4"
+                      />
+                      
+                    </div>
+                  </div>
+                </form>
+
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"></script>
+<script>
+  const translations = {
+    fr: {
+      formTitle: "Nom de l'entreprise",
+      formDescription: "Description de l'entreprise",
+      name: "Nom et prénom",
+      email: "Email",
+      phone: "Numéro de téléphone",
+      subject: "Sujet",
+      message: "Écrivez votre message",
+      submitBtn: "Envoyer le message",
+    },
+    en: {
+      formTitle: "Company Name",
+      formDescription: "Company description",
+      name: "Full name",
+      email: "Email",
+      phone: "Phone number",
+      subject: "Subject",
+      message: "Write your message",
+      submitBtn: "Send message",
+    }
+  };
+
+  const indicativeInput = document.querySelector("#Indicatif");
+
+  const iti = window.intlTelInput(indicativeInput, {
+    initialCountry: "ci",
+    preferredCountries: ["ci", "fr", "us", "gb"],
+    separateDialCode: true,
+    nationalMode: false,
+    utilsScript:
+      "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js",
+  });
+
+  // Validation + génération du numéro complet avant soumission
+  document.getElementById("contactForm").addEventListener("submit", function (e) {
+    const fullNumber = iti.getNumber(); // ex: +2250701020304
+
+    // Vérifie si le numéro est valide
+    if (!iti.isValidNumber()) {
+      e.preventDefault();
+      alert("Le numéro de téléphone est invalide.");
+      return false;
+    }
+
+   
+  });
+
+  // Fonction pour changer dynamiquement la langue
+  function setLanguage(lang) {
+    const t = translations[lang];
+    if (!t) return;
+
+    document.getElementById("formTitle").innerText = t.formTitle;
+    document.getElementById("formDescription").innerText = t.formDescription;
+    document.getElementById("name").placeholder = t.name;
+    document.getElementById("email").placeholder = t.email;
+    document.getElementById("Indicatif").placeholder = t.phone;
+    document.getElementById("subject").placeholder = t.subject;
+    document.getElementById("message").placeholder = t.message;
+    document.getElementById("submitBtn").value = t.submitBtn;
+
+    localStorage.setItem("preferredLanguage", lang);
+  }
+
+  // Récupère la langue sauvegardée ou défaut "fr"
+  const languageSelect = document.getElementById("languageSelect");
+  const savedLang = localStorage.getItem("preferredLanguage") || "fr";
+  languageSelect.value = savedLang;
+  setLanguage(savedLang);
+
+  languageSelect.addEventListener("change", function () {
+    setLanguage(this.value);
+  });
+</script>
+
+
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
